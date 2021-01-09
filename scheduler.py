@@ -103,8 +103,7 @@ pd.DataFrame(counter).to_csv('counter' + currentDate + '.csv')
 
 # sending as email
 sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'ayeshahanifrao@gmail.com')
-# sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'snnakamura@ucdavis.edu')
-sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', '21100157@lums.edu.pk')
+sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'snnakamura@ucdavis.edu')
 
 os.remove('results' + currentDate + '.csv')
 os.remove('counter' + currentDate + '.csv')
