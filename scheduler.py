@@ -79,6 +79,8 @@ def search(q, page):
 
 all_results = []
 counter = []
+results = None
+count = None
 for row in tqdm(data.itertuples()):
     query = f'{row.Make} {row.Model}'
     for page in range(20):
@@ -101,7 +103,8 @@ pd.DataFrame(counter).to_csv('counter' + currentDate + '.csv')
 
 # sending as email
 sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'ayeshahanifrao@gmail.com')
-sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'snnakamura@ucdavis.edu')
+# sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'snnakamura@ucdavis.edu')
+sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', '21100157@lums.edu.pk')
 
 os.remove('results' + currentDate + '.csv')
 os.remove('counter' + currentDate + '.csv')
