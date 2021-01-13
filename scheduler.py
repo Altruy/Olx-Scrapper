@@ -83,7 +83,7 @@ results = None
 count = None
 for row in tqdm(data.itertuples()):
     query = f'{row.Make} {row.Model}'
-    for page in range(10): # 20
+    for page in range(20):
         try:
             results, count = search(query, page)
             for r in results:
