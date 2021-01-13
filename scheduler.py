@@ -83,7 +83,7 @@ results = None
 count = None
 for row in tqdm(data.itertuples()):
     query = f'{row.Make} {row.Model}'
-    for page in range(20):
+    for page in range(10): # 20
         try:
             results, count = search(query, page)
             for r in results:
@@ -98,12 +98,17 @@ for row in tqdm(data.itertuples()):
 now = datetime.now()
 currentDate = now.strftime("%d_%m_%Y")
 
-pd.DataFrame(all_results).to_csv('results' + currentDate + '.csv')
-pd.DataFrame(counter).to_csv('counter' + currentDate + '.csv')
+# getting current time
+now = datetime.now()
+current_time = now.strftime("%H_%M_%S")
+
+pd.DataFrame(all_results).to_csv('results' + '_' + currentDate + '_' + current_time + '.csv')
+pd.DataFrame(counter).to_csv('counter' + '_' + currentDate + '_' + current_time + '.csv')
 
 # sending as email
-sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'ayeshahanifrao@gmail.com')
-sendMail('results' + currentDate + '.csv', 'counter' + currentDate + '.csv', 'snnakamura@ucdavis.edu')
+# sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'ayeshahanifrao@gmail.com')
+# sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'snnakamura@ucdavis.edu')
+sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', '21100157@lums.edu.pk')
 
-os.remove('results' + currentDate + '.csv')
-os.remove('counter' + currentDate + '.csv')
+os.remove('results' + '_' + currentDate + '_' + current_time + '.csv')
+os.remove('counter' + '_' + currentDate + '_' + current_time + '.csv')
