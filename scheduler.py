@@ -3,8 +3,9 @@ import pandas as pd
 from tqdm import tqdm
 from datetime import datetime
 import os
+from send_email import send_email
 
-data = pd.read_csv("pop.csv")
+data = pd.read_csv("pop_minimal.csv")
 
 
 def make_url(title, id):
@@ -51,7 +52,7 @@ results = None
 count = None
 for row in tqdm(data.itertuples()):
     query = f'{row.Make} {row.Model}'
-    for page in range(20):
+    for page in range(1):
         try:
             results, count = search(query, page)
             for r in results:
@@ -64,11 +65,16 @@ for row in tqdm(data.itertuples()):
 
 # getting current date
 now = datetime.now()
-currentDate = now.strftime("%d_%m_%Y")
+currentDate = now.strftime("%d-%m-%Y")
 
 # getting current time
 now = datetime.now()
-current_time = now.strftime("%H_%M_%S")
+current_time = now.strftime("%H-%M-%S")
 
-pd.DataFrame(all_results).to_csv(os.path.join('crawls', 'results' + '_' + currentDate + '_' + current_time + '.csv'), index=False)
-pd.DataFrame(counter).to_csv(os.path.join('crawls', 'counter' + '_' + currentDate + '_' + current_time + '.csv'), index=False)
+counterFile = 'counter' + '_' + currentDate + '_' + current_time + '.csv'
+resultsFile = 'results' + '_' + currentDate + '_' + current_time + '.csv'
+
+pd.DataFrame(all_results).to_csv(resultsFile, index=False)
+pd.DataFrame(counter).to_csv(counterFile, index=False)
+
+send_email('m_haroon96@hotmail.com', f'OLX Crawl ({currentDate})', '', [counterFile, resultsFile])
