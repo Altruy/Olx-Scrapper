@@ -14,8 +14,8 @@ import os
 # function for sending scrapped data to provided email address
 def sendMail(toSend, toSend2, rec):
     filenames = [toSend, toSend2]
-    gmail_user = "datascrapper0@gmail.com"
-    gmail_pwd = "datascrapper2021"
+    gmail_user = "textanalysis91@gmail.com"
+    gmail_pwd = "aaa_lums"
     msg = MIMEMultipart()
     msg['From'] = gmail_user
     msg['To'] = rec
