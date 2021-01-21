@@ -2,38 +2,6 @@ import requests
 import pandas as pd
 from tqdm import tqdm
 from datetime import datetime
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.base import MIMEBase
-from email import encoders
-import os
-
-
-# function for sending scrapped data to provided email address
-def sendMail(toSend, toSend2, rec):
-    filenames = [toSend, toSend2]
-    gmail_user = "textanalysis91@gmail.com"
-    gmail_pwd = "aaa_lums"
-    msg = MIMEMultipart()
-    msg['From'] = gmail_user
-    msg['To'] = rec
-    msg['Subject'] = "Olx Scrapped Data"
-    msg.attach(MIMEText("Today's scrapped data from OLX"))
-    for file in filenames:
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(open(file, 'rb').read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="%s"' % file)
-        msg.attach(part)
-    mailServer = smtplib.SMTP("smtp.gmail.com", 587)
-    mailServer.ehlo()
-    mailServer.starttls()
-    mailServer.ehlo()
-    mailServer.login(gmail_user, gmail_pwd)
-    mailServer.sendmail(gmail_user, rec, msg.as_string())
-    mailServer.close()
 
 
 data = pd.read_csv("pop.csv")
@@ -102,13 +70,5 @@ currentDate = now.strftime("%d_%m_%Y")
 now = datetime.now()
 current_time = now.strftime("%H_%M_%S")
 
-pd.DataFrame(all_results).to_csv('results' + '_' + currentDate + '_' + current_time + '.csv')
-pd.DataFrame(counter).to_csv('counter' + '_' + currentDate + '_' + current_time + '.csv')
-
-# sending as email
-#sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'ayeshahanifrao@gmail.com')
-sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'm_haroon96@hotmail.com')
-#sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'snnakamura@ucdavis.edu')
-
-os.remove('results' + '_' + currentDate + '_' + current_time + '.csv')
-os.remove('counter' + '_' + currentDate + '_' + current_time + '.csv')
+pd.DataFrame(all_results).to_csv(os.path.join('crawls', 'results' + '_' + currentDate + '_' + current_time + '.csv'), index=False)
+pd.DataFrame(counter).to_csv(os.path.join('crawls', 'counter' + '_' + currentDate + '_' + current_time + '.csv'), index=False)
