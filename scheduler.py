@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 from send_email import send_email
 
-data = pd.read_csv("pop_minimal.csv")
+data = pd.read_csv("pop.csv")
 
 
 def make_url(title, id):
@@ -52,7 +52,7 @@ results = None
 count = None
 for row in tqdm(data.itertuples()):
     query = f'{row.Make} {row.Model}'
-    for page in range(1):
+    for page in range(20):
         try:
             results, count = search(query, page)
             for r in results:
@@ -77,4 +77,4 @@ resultsFile = 'results' + '_' + currentDate + '_' + current_time + '.csv'
 pd.DataFrame(all_results).to_csv(resultsFile, index=False)
 pd.DataFrame(counter).to_csv(counterFile, index=False)
 
-send_email('m_haroon96@hotmail.com', f'OLX Crawl ({currentDate})', '', [counterFile, resultsFile])
+send_email('ayeshahanifrao@gmail.com', f'OLX Crawl ({currentDate})', '', [counterFile, resultsFile])
