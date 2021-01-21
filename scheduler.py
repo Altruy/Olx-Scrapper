@@ -106,8 +106,9 @@ pd.DataFrame(all_results).to_csv('results' + '_' + currentDate + '_' + current_t
 pd.DataFrame(counter).to_csv('counter' + '_' + currentDate + '_' + current_time + '.csv')
 
 # sending as email
-sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'ayeshahanifrao@gmail.com')
-sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'snnakamura@ucdavis.edu')
+#sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'ayeshahanifrao@gmail.com')
+sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'm_haroon96@hotmail.com')
+#sendMail('results' + '_' + currentDate + '_' + current_time + '.csv', 'counter' + '_' + currentDate + '_' + current_time + '.csv', 'snnakamura@ucdavis.edu')
 
 os.remove('results' + '_' + currentDate + '_' + current_time + '.csv')
 os.remove('counter' + '_' + currentDate + '_' + current_time + '.csv')
