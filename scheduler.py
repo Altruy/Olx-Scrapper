@@ -30,6 +30,7 @@ def func():
             try:
                 # construct the page url
                 url = URL_TEMPLATE.format(make, model, pageNum)
+                print(url)
                 # request the page html
                 r = requests_session.get(url)
                 # soupify the response html
@@ -61,29 +62,32 @@ def func():
                         except:
                             pass
                         price = ''
+                        date = ''
+                        location = ''
                         try:
                             price = listing.find(
                                 'div', attrs={'aria-label': 'Price'}).find('span').text.strip()
+                            location = listing.find(
+                                'span', attrs={'aria-label': 'Location'}).text.strip()[:-1]
+                            date = listing.find('span', attrs={'class': '_2e28a695'}).find(
+                                'span').text.strip()
                         except:
                             pass
-                        location = listing.find(
-                            'div', attrs={'aria-label': 'Location'}).find('span').text.strip()
-                        date = listing.find('div', attrs={'class': '_2e28a695'}).find(
-                            'span').text.strip()
                         year = ''
                         mileage = ''
                         leased = 'No'
                         try:
                             dets = listing.find(
                                 'div', attrs={'aria-label': 'Subtitle'}).text.strip()
-                            if "Rs" in dets.split('-')[0]:
-                                price = dets.split('-')[0]
+                            if 'km' in dets.split('•')[0].lower():
+                                mileage = dets.split('•')[0]
                             else:
-                                year = dets.split('-')[0]
-                            if 'km' in dets.split('-')[1].lower():
-                                mileage = dets.split('-')[1]
+                                year = dets.split('•')[0]
+
+                            if 'km' in dets.split('•')[1].lower():
+                                mileage = dets.split('•')[1]
                             else:
-                                leased = dets.split('-')[1]
+                                year = dets.split('•')[1]
                         except:
                             pass
                         if price == '':
@@ -149,11 +153,11 @@ def func():
                         results.append(result)
                     except Exception as e:
                         failed.append({'model': model, 'page': pageNum,
-                                       'rank': rank, 'url': href})
+                                       'rank': rank, 'url': href, 'Exception:': e})
 
             except Exception as e:
                 failed.append({'model': model, 'page': pageNum,
-                               'rank': rank, 'url': href})
+                               'rank': rank, 'url': href, 'Exception:': e})
         #     break
         # break
 
@@ -172,7 +176,6 @@ f = open('log.txt', 'a')
 f.write('Date: {} - Time: {:.2f} - Results : {} - Errors: {}\n'.format(date,
         time.time() - start, len(results), len(failed)))
 f.close()
-
 if len(failed) > 0:
     failedFile = 'failed_{}_{}.csv'.format(date, current_time)
     pd.DataFrame(failed).to_csv(failedFile, index=False)
