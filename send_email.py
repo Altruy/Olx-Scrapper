@@ -30,7 +30,7 @@ def send_email(email_recipient, email_subject, email_message, attachments=[]):
         server = smtplib.SMTP('smtp.office365.com', 587)
         server.ehlo()
         server.starttls()
-        server.login('pkcrawler2021@outlook.com', "-")
+        server.login('pkcrawler2021@outlook.com', 'ZzPJ6wwRS3iREc3')
         text = msg.as_string()
         server.sendmail(email_sender, email_recipient, text)
         print('email sent')
